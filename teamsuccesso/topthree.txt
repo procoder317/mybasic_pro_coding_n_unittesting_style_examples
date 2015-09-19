@@ -1,4 +1,0 @@
-#  PINCOD     RANK    No of Parcels Delivered
-1. 456098     1       4                      
-2. 567789     2       3                      
-3. 560089     3       2                      
