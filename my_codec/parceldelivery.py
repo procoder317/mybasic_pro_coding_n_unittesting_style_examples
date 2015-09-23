@@ -23,7 +23,7 @@ for " PIN - 456098" as above. As well as total length is considered as 15 chars
 5. assume it can be more restrictive but one can have a extra check where the
 postal code is always 6 digits long as it is always for Banglore location.
 
-
+6. Final assumption is that assertions will always be turned on while using also
 ########################################################################
 approach to the problem
 
@@ -65,8 +65,8 @@ def write_outfile(ranks, outputfile_name="topthree.txt"):
                                      'No of Parcels Delivered', '\n'))
         for pin_code, no_delivery in ranks:
             count += 1
-            opfile.write(template.format(str(count)+".", pin_code, str(count),
-                                         str(no_delivery), '\n'))
+            opfile.write(template.format(str(count) + ".",
+             pin_code, str(count), str(no_delivery), '\n'))
     except IOError:
         return "IO failed"
     except AssertionError:
@@ -90,12 +90,15 @@ def ranksetter(ranklist, no_delivery, postalcode):
     ranksetter([('456098', 3), ('567789', 2), ('560089', 1)], 5, "234561")
     """
     try:
+        #input type assertion checks
         assert(isinstance(ranklist, list))
         assert(isinstance(no_delivery, int))
         assert(isinstance(postalcode, str))
         assert(postalcode.isdigit())
+        #allowd length checks
         assert(len(ranklist) == 3)
         assert(len(postalcode) == 6)
+        #delivery must be non negative and integral
         assert(no_delivery >= 0)
         check_list = [val[1] for val in ranklist]
         exp_list = check_list[:]
@@ -147,7 +150,7 @@ def matcher_and_extractor(constraint_string, input_sub_string,
         assert(input_sub_string[constraint_length].isdigit())
         # is the postal code what we think is digits only and note always we
         #consider it only 6 digit length
-        postal_code = input_sub_string[constraint_length: constraint_length+6]
+        postal_code = input_sub_string[constraint_length: constraint_length + 6]
         assert(postal_code.isdigit())
         return postal_code
     except AssertionError:
@@ -187,7 +190,6 @@ def toppostalcodes(input_filename):
         for p_code in postalcodedict:
             ranker = ranksetter(ranker, postalcodedict[p_code], p_code)
             assert(ranker is not None)
-        print ranker
         return write_outfile(ranker)
     except AssertionError:
         return
